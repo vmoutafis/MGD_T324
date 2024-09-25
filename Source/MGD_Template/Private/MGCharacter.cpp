@@ -28,3 +28,26 @@ void AMGCharacter::PMoveCharacter(FVector2D axis)
 	AddMovementInput(UKismetMathLibrary::GetRightVector(controlRot), axis.X);
 }
 
+void AMGCharacter::ToggleTrigger(const bool pullOrRelease)
+{
+	if (HasAuthority() && IsLocallyControlled())
+	{
+		Multi_OnTriggerChanged(pullOrRelease);
+		return;
+	}
+
+	if (!HasAuthority() && IsLocallyControlled())
+		Server_OnTriggerChanged(pullOrRelease);
+}
+
+void AMGCharacter::Multi_OnTriggerChanged_Implementation(const bool pullOrRelease)
+{
+	bIsHoldingTrigger = pullOrRelease;
+	OnTriggerChanged(pullOrRelease);
+}
+
+void AMGCharacter::Server_OnTriggerChanged_Implementation(const bool pullOrRelease)
+{
+	Multi_OnTriggerChanged(pullOrRelease);
+}
+
