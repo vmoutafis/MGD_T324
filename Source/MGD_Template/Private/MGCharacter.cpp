@@ -17,7 +17,7 @@ AMGCharacter::AMGCharacter()
 void AMGCharacter::PMoveCharacter(FVector2D axis)
 {
 	// create a local rotation variable
-	FRotator controlRot;
+	FRotator controlRot = FRotator::ZeroRotator;
 
 	// set the yaw to the same as the controllers yaw
 	controlRot.Yaw = GetControlRotation().Yaw;

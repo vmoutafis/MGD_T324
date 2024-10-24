@@ -18,4 +18,33 @@ public:
 
 	UPROPERTY(EditAnywhere, Category=Components)
 	UCapsuleComponent* PickupTrigger;
+
+	UPROPERTY(EditAnywhere, Category=Components)
+	UStaticMeshComponent* MeshComponent;
+
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+protected:
+
+	virtual void BeginPlay() override;
+	
+	// if the pickup has been activted
+	virtual void ActivatePickup(AActor* PickupActor);
+
+	UFUNCTION(BlueprintImplementableEvent, Category=Pickup)
+	void BP_OnPickupActivated(AActor* PickupActor);
+
+	UFUNCTION(NetMulticast, Reliable, Category=Replication)
+	void DeactivatePickup();
+
+	UFUNCTION(NetMulticast, Reliable, Category=Replication)
+	void ReactivatePickup();
+
+	UPROPERTY(EditDefaultsOnly, Category=Pickup)
+	float ResetTime;
+
+private:
+
+	// the timer for reactivating the pickup
+	FTimerHandle TH_ResetTimer;
 };
