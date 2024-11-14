@@ -128,8 +128,8 @@ void UMGGameInstance::StartGame()
 		return;
 
 	GetWorld()->GetAuthGameMode()->bUseSeamlessTravel = true;
-	
-	GetWorld()->ServerTravel("");
+
+	GetWorld()->ServerTravel("/Game/MyContent/Maps/Lvl_Test?listen?GameMode=/Script/MGD_Template.GM_Battle");
 }
 
 void UMGGameInstance::OnLoginComplete(int32 localUserNum, bool bWasSuccessful, const FUniqueNetId& UserId,
