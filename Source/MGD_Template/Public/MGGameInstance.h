@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Login)
 	void LoginToEOS();
 
+	UFUNCTION(BlueprintPure, Category=Login)
+	bool IsLoggedIn() const;
+
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category=Login)
 	void BIEOnLoginComplete(bool success, const FString& error);

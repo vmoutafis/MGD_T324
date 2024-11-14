@@ -53,8 +53,17 @@ void UMGGameInstance::LoginToEOS()
 	UE_LOG(LogTemp, Warning, TEXT("Attempting to login..."))
 }
 
+bool UMGGameInstance::IsLoggedIn() const
+{
+	if (!IdentityInterface)
+		return false;
+
+	// return true if login status is logged in
+	return IdentityInterface->GetLoginStatus(0) == ELoginStatus::LoggedIn;
+}
+
 void UMGGameInstance::OnLoginComplete(int32 localUserNum, bool bWasSuccessful, const FUniqueNetId& UserId,
-	const FString& Error)
+ const FString& Error)
 {
 	BIEOnLoginComplete(bWasSuccessful, Error);
 }
