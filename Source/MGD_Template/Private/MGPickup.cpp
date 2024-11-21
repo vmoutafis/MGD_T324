@@ -50,6 +50,12 @@ void AMGPickup::NotifyActorBeginOverlap(AActor* OtherActor)
 		return;
 	}
 	
+	for (TSubclassOf<AActor>& item : IgnoreActorClass) {
+		if (OtherActor->GetClass() == item) {
+			return;
+		}
+	}
+
 	if (OtherActor->GetClass()->IsChildOf(PickupActorClass))
 	{
 		ActivatePickup(OtherActor);

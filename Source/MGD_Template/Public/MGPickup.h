@@ -43,6 +43,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category=Pickup)
 	TSubclassOf<AActor> PickupActorClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = Pickup)
+	TArray<TSubclassOf<AActor>> IgnoreActorClass;
+
 	// EditAnywhere allows us to edit the variable in the level editor and blueprint editor
 	// It's kinda like the eye (instance editable)
 	UPROPERTY(EditAnywhere, Category=Pickup)
