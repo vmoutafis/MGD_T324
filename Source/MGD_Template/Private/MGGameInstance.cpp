@@ -6,6 +6,12 @@
 #include "OnlineSessionSettings.h"
 #include "GameFramework/GameModeBase.h"
 
+UMGGameInstance::UMGGameInstance()
+{
+	GameHasStarted = false;
+	OssRef = nullptr;
+}
+
 void UMGGameInstance::Init()
 {
 	Super::Init();
@@ -121,15 +127,31 @@ void UMGGameInstance::StartGame()
 	if (!IsLoggedIn())
 		return;
 
-	if (!SessionInterface)
+	if (!IsInSession())
 		return;
 
-	if (SessionInterface->GetSessionState(TEXT("MGSESSION")) == EOnlineSessionState::NoSession)
-		return;
+	GameHasStarted = true;
 
 	GetWorld()->GetAuthGameMode()->bUseSeamlessTravel = true;
 
 	GetWorld()->ServerTravel("/Game/MyContent/Maps/Lvl_Test?listen?GameMode=/Script/MGD_Template.GM_Battle");
+}
+
+void UMGGameInstance::TravelToLobby()
+{
+	GameHasStarted = false;
+	
+	GetWorld()->GetAuthGameMode()->bUseSeamlessTravel = true;
+
+	GetWorld()->ServerTravel("/Game/MyContent/Maps/Lvl_Lobby?listen?GameMode=/Script/MGD_Template.GM_Lobby");
+}
+
+bool UMGGameInstance::IsInSession() const
+{
+	if (!SessionInterface)
+		return false;
+	
+	return SessionInterface->GetSessionState(TEXT("MGSESSION")) != EOnlineSessionState::NoSession;
 }
 
 void UMGGameInstance::OnLoginComplete(int32 localUserNum, bool bWasSuccessful, const FUniqueNetId& UserId,
